@@ -69,6 +69,8 @@ ArrayList<Integer> py = new ArrayList<Integer>();
         background(205,100,0);
         drawFood();
         drawSnake();
+        eat();
+        manageTail();
     }
 
     void drawFood() {
@@ -92,8 +94,7 @@ ArrayList<Integer> py = new ArrayList<Integer>();
 			segments.get(i).draw();
 		}
 		System.out.println(segments.size());
-		rect(head.x, head.y, 10 ,10);
-        
+		
     }
 
     /*
@@ -125,25 +126,34 @@ ArrayList<Integer> py = new ArrayList<Integer>();
     @Override
     public void keyPressed() {
         // Set the direction of the snake according to the arrow keys pressed
-        if(keyCode == UP ) {
-        	
-        		direction = UP;
-        }
-    
-        else if(keyCode == DOWN  ) {
-			direction = DOWN;
+    	 
+    		// Set the direction of the snake according to the arrow keys pressed
+    		if (keyCode == 37 || keyCode == 65) {
+    			if (direction != RIGHT) {
+    				direction = LEFT;
 
-		
-	}
-    else   if(keyCode == LEFT) {
-    			direction = LEFT;
+    			}
+    		}
+    		if (keyCode == 38 || keyCode == 87) {
+    			if (direction != DOWN) {
+    				direction = UP;
+
+    			}
+    		}
+    		if (keyCode == 39 || keyCode == 68) {
+    			if (direction != LEFT) {
+    				direction = RIGHT;
+    			}
+    		}
+
+    		if (keyCode == 40 || keyCode == 83) {
+    			if (direction  != UP) {
+    				direction = DOWN;
+    			}
+
+    		}
+    	}
     	
-    }
-    else  if(keyCode == RIGHT ) {
-    	
-			direction = RIGHT;
-    }
-}
     void move() {
         // Change the location of the Snake head based on the direction it is moving.
     	System.out.println("y " + head.y);
@@ -152,34 +162,34 @@ ArrayList<Integer> py = new ArrayList<Integer>();
         if (direction== UP) {
             // Move head up
         	head.y = head.y - 10;
-        	checkBoundaries();
+
         } else if (direction == DOWN) {
-         	checkBoundaries();
+         	 
             // Move head down
         	head.y = head.y + 10;
         } else if (direction == LEFT) {
-         	checkBoundaries();
+         	 
         	head.x = head.x - 10;
         } else if (direction == RIGHT) {
         	head.x = head.x + 10;
-         	checkBoundaries();
+   
         }
-        
+      	checkBoundaries();
     }
 
     void checkBoundaries() {
         // If the snake leaves the frame, make it reappear on the other side
-    	if (head.y >= HEIGHT) {
-			head.y = head.y - HEIGHT;
+    	if (head.x > 500) {
+			head.x = 0;
 		}
-		if (head.y <= 0) {
-			head.y = head.y + HEIGHT;
+		if (head.y > 500) {
+			head.y = 0;
 		}
-		if (head.x >= WIDTH) {
-			head.x = head.x - WIDTH;
+		if (head.y < 0) {
+			head.y = 500;
 		}
-		if (head.x <= 0) {
-			head.x = head.x + WIDTH;
+		if (head.x < 0) {
+			head.x = 500;
 		}
 		
 	}
@@ -189,10 +199,16 @@ ArrayList<Integer> py = new ArrayList<Integer>();
     void eat() {
         // When the snake eats the food, its tail should grow and more
         // food appearif (head.x == foodX && head.y == foodY) {
-    	if (head.x == foodX && head.y == foodY) {
+    	if (foodX >= head.x && foodX <= head.x) {
+    		if(foodY >= head.y && foodY <= head.y) {
+food  += 1;
 		dropFood();
 		drawTail();
-        
+    		}
+    		for(int i =10; i>0; i--) {
+				segments.add(new Segment(hx, hy, this));
+}
+		
     }
     }
     static public void main(String[] passedArgs) {
