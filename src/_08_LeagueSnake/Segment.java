@@ -14,7 +14,7 @@ public class Segment {
 	 int x=0;
 	    int y=0;
 	    PApplet processing;
-	    public Segment(int x, int y, PApplet processing){
+	    public Segment(int x, int y){
 	    	this.x=x;
 	    	this.y=y;
 	this.processing = processing;

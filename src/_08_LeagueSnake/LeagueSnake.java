@@ -42,7 +42,7 @@ ArrayList<Integer> py = new ArrayList<Integer>();
 
     @Override
     public void setup() {
-    	head = new Segment(250, 250, this);
+    	head = new Segment(250, 250);
 		frameRate(20);
 		dropFood();
 
@@ -75,7 +75,7 @@ ArrayList<Integer> py = new ArrayList<Integer>();
 
     void drawFood() {
         // Draw the food
-        foodX=10*10;
+    	rect(foodX, foodY, 10, 10);
         fill(160,0,0);
        
     }
@@ -86,12 +86,14 @@ ArrayList<Integer> py = new ArrayList<Integer>();
     	fill(200,0,100);
     	rect(head.x,head.y,15,10);
     	drawTail();
+    	move();
     }
 
     void drawTail() {
         // Draw each segment of the tail
     	for (int i = 0; i < segments.size(); i++) {
-			segments.get(i).draw();
+    		Segment segment = segments.get(i);
+			rect(segment.x, segment.y, 10, 10);
 		}
 		System.out.println(segments.size());
 		
@@ -107,14 +109,21 @@ ArrayList<Integer> py = new ArrayList<Integer>();
         // After drawing the tail, add a new segment at the "start" of the tail and
         // remove the one at the "end"
         // This produces the illusion of the snake tail moving.
-    	segments.add(new Segment(hx, hy, this));
+    	checkTailCollision();{
+		drawTail();
+		segments.add(new Segment(head.x, head.y));
 		segments.remove(0);
-		System.out.println(hx + " " + hy);
+	}
     }
 
     void checkTailCollision() {
         // If the snake crosses its own tail, shrink the tail back to one segment
-        
+    	for(int i =0;i<segments.size(); i++) {
+			Segment seg = segments.get(i);
+		if (head.x == seg.x && head.y == seg.y) {
+			segments.remove(0);
+		}
+		}
     }
 
     /*
@@ -199,18 +208,15 @@ ArrayList<Integer> py = new ArrayList<Integer>();
     void eat() {
         // When the snake eats the food, its tail should grow and more
         // food appearif (head.x == foodX && head.y == foodY) {
-    	if (foodX >= head.x && foodX <= head.x) {
+    	
     		if(foodY >= head.y && foodY <= head.y) {
-food  += 1;
+
 		dropFood();
-		drawTail();
-    		}
-    		for(int i =10; i>0; i--) {
-				segments.add(new Segment(hx, hy, this));
+				segments.add(new Segment(hx, hy));
 }
 		
     }
-    }
+    
     static public void main(String[] passedArgs) {
         PApplet.main(LeagueSnake.class.getName());
     }
